@@ -15,12 +15,12 @@
 
 int main(int argc, char **argv)
 {
-	char *coucou = malloc(128);
+	char *coucou = malloc(1024);
 	char *coucou1 = malloc(40);
 	char *coucou2 = malloc(200000);
 	//char *coucou1 = malloc(40);
 	coucou[0] = 'a';
-	free(coucou);
+	//free(coucou);
 	free(coucou1);
 	free(coucou2);
 	/*int i = 0;

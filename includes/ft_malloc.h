@@ -21,8 +21,8 @@
 # define FILE_DESCRIPTOR -1
 # define OFFSET 0
 # define PAGE_SIZE getpagesize()
-# define TINY_ALLOC PAGE_SIZE
-# define SMALL_ALLOC PAGE_SIZE * 10
+# define TINY_ALLOC (PAGE_SIZE / 4) * 100
+# define SMALL_ALLOC (PAGE_SIZE * 1) * 100
 # define TRUE 1
 # define FALSE 0
 
