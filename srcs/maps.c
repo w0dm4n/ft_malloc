@@ -104,16 +104,3 @@ int		map_available(t_map *map, size_t size)
 		return (FALSE);
 	return (TRUE);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
