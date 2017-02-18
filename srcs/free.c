@@ -52,6 +52,7 @@ void	delete_from_map(t_data *data, t_map *map)
 {
 	munmap(data->ptr, data->allocated_size);
 	removeItem(&map->data, data);
+	// free map if data empty
 }
 
 void	get_data(void *ptr)
