@@ -23,15 +23,17 @@ void	print_tiny_allocation(t_map	*maps)
 	{
 		if (maps->zone_type == TINY)
 		{
-			if (print == 0)
+			if (maps->data)
 			{
-				printf("TINY : %p\n", maps);
-				print = 1;
-			}
-			data = maps->data;
-			printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
+				if (print == 0)
+				{
+					printf("TINY : %p\n", maps);
+					print = 1;
+				}
+				data = maps->data;
+				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
 				get_allocated_data(maps));
-
+			}
 		}
 		maps = maps->next;
 	}
@@ -48,14 +50,17 @@ void	print_small_allocation(t_map *maps)
 	{
 		if (maps->zone_type == SMALL)
 		{
-			if (print == 0)
+			if (maps->data)
 			{
-				printf("SMALL : %p\n", maps);
-				print = 1;
-			}
-			data = maps->data;
-			printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
+				if (print == 0)
+				{
+					printf("SMALL : %p\n", maps);
+					print = 1;
+				}
+				data = maps->data;
+				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
 				get_allocated_data(maps));
+			}
 		}
 		maps = maps->next;
 	}
@@ -72,14 +77,17 @@ void	print_large_allocation(t_map *maps)
 	{
 		if (maps->zone_type == LARGE)
 		{
-			if (print == 0)
+			if (maps->data)
 			{
-				printf("LARGE : %p\n", maps);
-				print = 1;
-			}
-			data = maps->data;
-			printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
+				if (print == 0)
+				{
+					printf("LARGE : %p\n", maps);
+					print = 1;
+				}
+				data = maps->data;
+				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
 				get_allocated_data(maps));
+			}
 		}
 		maps = maps->next;
 	}
@@ -96,7 +104,8 @@ size_t	get_alloc_total(t_map *maps)
 		datas = maps->data;
 		while (datas)
 		{
-			allocated += datas->allocated_size;
+			if (datas->is_free == FALSE)
+				allocated += datas->allocated_size;
 			datas = datas->next;
 		}
 		maps = maps->next;

@@ -15,9 +15,15 @@
 
 int main(int argc, char **argv)
 {
-	char *coucou = malloc(40);
-
-	int i = 0;
+	char *coucou = malloc(128);
+	char *coucou1 = malloc(40);
+	char *coucou2 = malloc(200000);
+	//char *coucou1 = malloc(40);
+	coucou[0] = 'a';
+	free(coucou);
+	free(coucou1);
+	free(coucou2);
+	/*int i = 0;
 	while (i <= 100)
 	{
 		malloc(40);
@@ -47,7 +53,7 @@ int main(int argc, char **argv)
 	{
 		malloc(10024);
 		i++;
-	}
+	}*/
 
 	/*while (i < 666)
 		coucou1[i++] = 'a';

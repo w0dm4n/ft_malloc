@@ -59,9 +59,10 @@ void	*alloc_in_map(size_t size, t_map *map)
 	return (data->ptr);
 }
 
-/*void	free(void *ptr)
+/*
+void	*realloc(void *ptr, size_t size)
 {
-	t_map	*maps;
+	/*t_map	*maps;
 	t_data	*data;
 	int res = 0;
 	int res1 = 0;
@@ -79,14 +80,9 @@ void	*alloc_in_map(size_t size, t_map *map)
 		printf("result: %d, result1: %d", res, res1);
 		maps = maps->next;
 	}
-}
-
-void	*realloc(void *ptr, size_t size)
-{
-
 	return (NULL);
-}*/
-
+}
+*/
 
 
 

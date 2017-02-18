@@ -41,5 +41,6 @@ t_data	*get_last_data(t_map *map);
 size_t	get_allocated_data(t_map *map);
 
 void	show_alloc_mem(void);
+void	free(void *ptr);
 t_map	*g_maps;
 #endif
