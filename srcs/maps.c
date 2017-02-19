@@ -25,7 +25,7 @@ t_map	*alloc_map(int zone)
 	return (map);
 }
 
-t_map	*get_maps()
+t_map	*get_maps(void)
 {
 	return (g_maps);
 }
@@ -63,12 +63,12 @@ t_map	*get_new_map(size_t size)
 		return (NULL);
 }
 
-t_map	*get_map_by_size(size_t size, t_map	*maps)
+t_map	*get_map_by_size(size_t size, t_map *maps)
 {
 	while (maps)
 	{
 		if (size <= (TINY_ALLOC / 100) &&
-		 maps->zone_type == TINY)
+			maps->zone_type == TINY)
 		{
 			if (map_available(maps, size))
 				return (maps);
@@ -81,7 +81,7 @@ t_map	*get_map_by_size(size_t size, t_map	*maps)
 		}
 		maps = maps->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int		map_available(t_map *map, size_t size)

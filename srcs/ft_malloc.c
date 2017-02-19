@@ -15,21 +15,24 @@
 void	*ft_mmap(size_t size)
 {
 	return (mmap(0, size, PROT_READ | PROT_WRITE, \
-	 MAP_ANONYMOUS | MAP_PRIVATE, FILE_DESCRIPTOR, OFFSET));
+		MAP_ANONYMOUS | MAP_PRIVATE, FILE_DESCRIPTOR, OFFSET));
 }
 
 void	*malloc(size_t size)
 {
-	void *ptr = get_alloc(size);
+	void	*ptr;
+
+	ptr = get_alloc(size);
 	return (ptr != NULL) ? ptr : NULL;
 }
 
 void	*get_alloc(size_t size)
 {
-	t_map	*maps = get_maps();
+	t_map	*maps;
 	t_map	*current;
 
 	current = NULL;
+	maps = get_maps();
 	if (!maps)
 		current = get_new_map(size);
 	if (g_maps)
@@ -55,7 +58,6 @@ void	*alloc_in_map(size_t size, t_map *map)
 
 	if (!(data = get_new_data(size, map)))
 		return (NULL);
-	t_data *test = map->data;
 	return (data->ptr);
 }
 
@@ -83,9 +85,3 @@ void	*realloc(void *ptr, size_t size)
 	return (NULL);
 }
 */
-
-
-
-
-
-

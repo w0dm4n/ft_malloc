@@ -12,7 +12,7 @@
 
 #include "ft_malloc.h"
 
-void	print_tiny_allocation(t_map	*maps)
+void	print_tiny_allocation(t_map *maps)
 {
 	t_data	*data;
 	int		print;
@@ -31,8 +31,8 @@ void	print_tiny_allocation(t_map	*maps)
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
-				get_allocated_data(maps));
+				printf("%p - %p : %zu octets\n", data->ptr, \
+					get_last_data(maps), get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -58,8 +58,8 @@ void	print_small_allocation(t_map *maps)
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
-				get_allocated_data(maps));
+				printf("%p - %p : %zu octets\n", data->ptr, \
+					get_last_data(maps), get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -85,8 +85,8 @@ void	print_large_allocation(t_map *maps)
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, get_last_data(maps), \
-				get_allocated_data(maps));
+				printf("%p - %p : %zu octets\n", data->ptr, \
+					get_last_data(maps), get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -110,7 +110,7 @@ size_t	get_alloc_total(t_map *maps)
 		}
 		maps = maps->next;
 	}
-	return allocated;
+	return (allocated);
 }
 
 void	show_alloc_mem(void)
@@ -123,12 +123,3 @@ void	show_alloc_mem(void)
 	print_large_allocation(maps);
 	printf("Total : %zu octets\n", get_alloc_total(maps));
 }
-
-
-
-
-
-
-
-
-

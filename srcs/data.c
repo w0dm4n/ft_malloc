@@ -68,14 +68,5 @@ size_t	get_allocated_data(t_map *map)
 		allocated += datas->allocated_size;
 		datas = datas->next;
 	}
-	return allocated;
+	return (allocated);
 }
-
-
-
-
-
-
-
-
-

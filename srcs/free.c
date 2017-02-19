@@ -15,7 +15,7 @@
 void	update_data(t_map *map, t_data *data)
 {
 	t_data	*datas;
-	t_data *start;
+	t_data	*start;
 
 	datas = map->data;
 	start = data;
@@ -24,34 +24,36 @@ void	update_data(t_map *map, t_data *data)
 		if (datas == data)
 		{
 			datas = data;
-			break;
+			break ;
 		}
 		datas = datas->next;
 	}
 	map->data = start;
 }
 
-void	removeItem(t_data **ptr, t_data *data)
+void	remove_data(t_data **ptr, t_data *data)
 {
-    while ((*ptr) != NULL)
-    {
-        if ((*ptr) == data)
-        {
-            t_data tmp = **ptr;
-            *ptr = (*ptr)->next;
-            munmap(ptr, sizeof(ptr));
-        }
-        else
-        {
-            ptr = &((*ptr)->next);
-        }
-    }
+	t_data	tmp;
+
+	while ((*ptr) != NULL)
+	{
+		if ((*ptr) == data)
+		{
+			tmp = **ptr;
+			*ptr = (*ptr)->next;
+			munmap(ptr, sizeof(ptr));
+		}
+		else
+		{
+			ptr = &((*ptr)->next);
+		}
+	}
 }
 
 void	delete_from_map(t_data *data, t_map *map)
 {
 	munmap(data->ptr, data->allocated_size);
-	removeItem(&map->data, data);
+	remove_data(&map->data, data);
 	// free map if data empty
 }
 
@@ -70,15 +72,18 @@ void	get_data(void *ptr)
 			if (datas->ptr == ptr)
 			{
 				delete_from_map(datas, maps);
-				break;
+				break ;
 			}
 			datas = datas->next;
 		}
 		maps = maps->next;
-	}	
+	}
 }
 
 void	free(void *ptr)
 {
-	get_data(ptr);
+	if (ptr != NULL)
+	{
+		get_data(ptr);
+	}
 }
