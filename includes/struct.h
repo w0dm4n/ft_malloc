@@ -25,8 +25,8 @@ typedef struct		s_data
 	void			*ptr;
 	size_t			allocated_size;
 	int				is_free;
-	struct s_data 	*next;
-	struct s_data 	*prev;
+	struct s_data	*next;
+	struct s_data	*prev;
 }					t_data;
 
 typedef struct		s_map

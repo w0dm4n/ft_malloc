@@ -39,6 +39,9 @@ t_data	*get_new_data(size_t size, t_map *map);
 void	add_to_datas(t_data	*data, t_map *map);
 t_data	*get_last_data(t_map *map);
 size_t	get_allocated_data(t_map *map);
+t_data	*find_data(void *ptr);
+
+void	*realloc(void *ptr, size_t size);
 
 void	show_alloc_mem(void);
 void	free(void *ptr);

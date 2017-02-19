@@ -70,3 +70,27 @@ size_t	get_allocated_data(t_map *map)
 	}
 	return (allocated);
 }
+
+t_data	*find_data(void *ptr)
+{
+	t_map	*maps;
+	t_data	*datas;
+
+	maps = get_maps();
+	datas = NULL;
+	while (maps)
+	{
+		if (maps->data)
+		{
+			datas = maps->data;
+			while (datas)
+			{
+				if (datas->ptr == ptr)
+					return (datas);
+				datas = datas->next;
+			}
+		}
+		maps = maps->next;
+	}
+	return (NULL);
+}

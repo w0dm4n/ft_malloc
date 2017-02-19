@@ -118,8 +118,11 @@ void	show_alloc_mem(void)
 	t_map	*maps;
 
 	maps = get_maps();
-	print_tiny_allocation(maps);
-	print_small_allocation(maps);
-	print_large_allocation(maps);
+	if (maps != NULL)
+	{
+		print_tiny_allocation(maps);
+		print_small_allocation(maps);
+		print_large_allocation(maps);
+	}
 	printf("Total : %zu octets\n", get_alloc_total(maps));
 }

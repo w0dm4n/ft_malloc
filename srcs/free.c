@@ -41,7 +41,7 @@ void	remove_data(t_data **ptr, t_data *data)
 		{
 			tmp = **ptr;
 			*ptr = (*ptr)->next;
-			munmap(ptr, sizeof(ptr));
+			munmap(data, sizeof(data));
 		}
 		else
 		{
@@ -50,11 +50,35 @@ void	remove_data(t_data **ptr, t_data *data)
 	}
 }
 
-void	delete_from_map(t_data *data, t_map *map)
+void	remove_map(t_map **ptr, t_map *map)
+{
+	t_map	tmp;
+
+	while ((*ptr) != NULL)
+	{
+		if ((*ptr) == map)
+		{
+			tmp = **ptr;
+			*ptr = (*ptr)->next;
+			munmap(map, sizeof(map));
+		}
+		else
+		{
+			ptr = &((*ptr)->next);
+		}
+	}
+}
+
+int		delete_from_map(t_data *data, t_map *map)
 {
 	munmap(data->ptr, data->allocated_size);
 	remove_data(&map->data, data);
-	// free map if data empty
+	if (map->data == NULL)
+	{
+		remove_map(&g_maps, map);
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 void	get_data(void *ptr)
@@ -71,12 +95,14 @@ void	get_data(void *ptr)
 		{
 			if (datas->ptr == ptr)
 			{
-				delete_from_map(datas, maps);
+				if (delete_from_map(datas, maps) == TRUE)
+					maps = get_maps();
 				break ;
 			}
 			datas = datas->next;
 		}
-		maps = maps->next;
+		if (maps != NULL)
+			maps = maps->next;
 	}
 }
 

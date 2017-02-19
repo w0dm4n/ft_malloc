@@ -60,28 +60,3 @@ void	*alloc_in_map(size_t size, t_map *map)
 		return (NULL);
 	return (data->ptr);
 }
-
-/*
-void	*realloc(void *ptr, size_t size)
-{
-	/*t_map	*maps;
-	t_data	*data;
-	int res = 0;
-	int res1 = 0;
-
-	data = NULL;
-	maps = get_maps();
-	printf("%p\n", ptr);
-	while (maps)
-	{
-		data = maps->data;
-		printf("%p\n", data->ptr);
-		res1 = munmap(data->ptr, data->allocated_size);
-		res = munmap(data, sizeof(data));
-
-		printf("result: %d, result1: %d", res, res1);
-		maps = maps->next;
-	}
-	return (NULL);
-}
-*/

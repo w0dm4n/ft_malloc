@@ -47,7 +47,8 @@ SRCBASE		=	\
 				maps.c				\
 				data.c				\
 				show_alloc_mem.c    \
-				free.c
+				free.c              \
+				realloc.c
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRCBASE))
 
