@@ -35,7 +35,7 @@ void	*realloc(void *ptr, size_t size)
 	void	*tmp;
 
 	if (!(data = find_data(ptr)))
-		return (malloc(size));
+		return (NULL);
 	if (size <= data->allocated_size)
 		return (ptr);
 	tmp = ft_mmap(size);

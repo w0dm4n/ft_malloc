@@ -22,9 +22,10 @@
 # define OFFSET 0
 # define PAGE_SIZE getpagesize()
 # define TINY_ALLOC (PAGE_SIZE / 4) * 100
-# define SMALL_ALLOC (PAGE_SIZE * 1) * 100
+# define SMALL_ALLOC (PAGE_SIZE * 8) * 100
 # define TRUE 1
 # define FALSE 0
+# define DATA 1000000
 
 void	*malloc(size_t size);
 t_map	*get_maps();
@@ -44,6 +45,7 @@ t_data	*find_data(void *ptr);
 void	*realloc(void *ptr, size_t size);
 
 void	show_alloc_mem(void);
+int		all_freed(t_data *datas);
 void	free(void *ptr);
 t_map	*g_maps;
 #endif

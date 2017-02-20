@@ -12,25 +12,6 @@
 
 #include "ft_malloc.h"
 
-void	update_data(t_map *map, t_data *data)
-{
-	t_data	*datas;
-	t_data	*start;
-
-	datas = map->data;
-	start = data;
-	while (datas)
-	{
-		if (datas == data)
-		{
-			datas = data;
-			break ;
-		}
-		datas = datas->next;
-	}
-	map->data = start;
-}
-
 void	remove_data(t_data **ptr, t_data *data)
 {
 	t_data	tmp;
@@ -50,6 +31,26 @@ void	remove_data(t_data **ptr, t_data *data)
 	}
 }
 
+void	free_all(t_map *map)
+{
+	if (map->zone_type == TINY)
+	{
+		munmap(map->content, TINY_ALLOC);
+		munmap(map->content_data, TINY_ALLOC + DATA);
+	}
+	else if (map->zone_type == SMALL)
+	{
+		munmap(map->content, SMALL_ALLOC);
+		munmap(map->content_data, SMALL_ALLOC + DATA);
+	}
+	else
+	{
+		munmap(map->content, map->data->allocated_size);
+		munmap(map->content_data, map->data->allocated_size + DATA);
+	}
+	munmap(map, sizeof(struct s_map));
+}
+
 void	remove_map(t_map **ptr, t_map *map)
 {
 	t_map	tmp;
@@ -60,7 +61,7 @@ void	remove_map(t_map **ptr, t_map *map)
 		{
 			tmp = **ptr;
 			*ptr = (*ptr)->next;
-			munmap(map, sizeof(map));
+			free_all(map);
 		}
 		else
 		{
@@ -71,9 +72,8 @@ void	remove_map(t_map **ptr, t_map *map)
 
 int		delete_from_map(t_data *data, t_map *map)
 {
-	munmap(data->ptr, data->allocated_size);
-	remove_data(&map->data, data);
-	if (map->data == NULL)
+	data->is_free = TRUE;
+	if (all_freed(map->data) == TRUE && map_available(map, 1024) == FALSE)
 	{
 		remove_map(&g_maps, map);
 		return (TRUE);

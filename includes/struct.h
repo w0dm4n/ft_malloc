@@ -35,6 +35,9 @@ typedef struct		s_map
 	struct s_map		*prev;
 	struct s_data		*data;
 	enum e_zone_type	zone_type;
+	void				*content;
+	void				*content_data;
+	void				*last_data;
 }					t_map;
 
 #endif

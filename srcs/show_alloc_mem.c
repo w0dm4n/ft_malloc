@@ -12,6 +12,17 @@
 
 #include "ft_malloc.h"
 
+int		all_freed(t_data *datas)
+{
+	while (datas)
+	{
+		if (datas->is_free == FALSE)
+			return (FALSE);
+		datas = datas->next;
+	}
+	return (TRUE);
+}
+
 void	print_tiny_allocation(t_map *maps)
 {
 	t_data	*data;
@@ -23,7 +34,7 @@ void	print_tiny_allocation(t_map *maps)
 	{
 		if (maps->zone_type == TINY)
 		{
-			if (maps->data)
+			if (maps->data && all_freed(maps->data) != TRUE)
 			{
 				if (print == 0)
 				{
@@ -50,7 +61,7 @@ void	print_small_allocation(t_map *maps)
 	{
 		if (maps->zone_type == SMALL)
 		{
-			if (maps->data)
+			if (maps->data && all_freed(maps->data) != TRUE)
 			{
 				if (print == 0)
 				{
@@ -77,7 +88,7 @@ void	print_large_allocation(t_map *maps)
 	{
 		if (maps->zone_type == LARGE)
 		{
-			if (maps->data)
+			if (maps->data && all_freed(maps->data) != TRUE)
 			{
 				if (print == 0)
 				{
@@ -101,12 +112,15 @@ size_t	get_alloc_total(t_map *maps)
 	allocated = 0;
 	while (maps)
 	{
-		datas = maps->data;
-		while (datas)
+		if (maps->data)
 		{
-			if (datas->is_free == FALSE)
-				allocated += datas->allocated_size;
-			datas = datas->next;
+			datas = maps->data;
+			while (datas)
+			{
+				if (datas->is_free == FALSE)
+					allocated += datas->allocated_size;
+				datas = datas->next;
+			}
 		}
 		maps = maps->next;
 	}

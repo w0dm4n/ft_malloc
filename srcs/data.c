@@ -12,16 +12,39 @@
 
 #include "ft_malloc.h"
 
+void	*get_ptr(size_t size, t_map *map)
+{
+	int		allocated = 0;
+	t_data	*datas;
+
+	datas = map->data;
+	while (datas)
+	{
+		allocated += datas->allocated_size;
+		datas = datas->next;
+	}
+	allocated += 1;
+	return (map->content + allocated);
+}
+
+void	*get_ptr_data(t_map *map)
+{
+	if (map->last_data)
+		return (map->last_data + sizeof(struct s_data));
+	return (map->content_data);
+}
+
 t_data	*get_new_data(size_t size, t_map *map)
 {
 	t_data	*new;
 
-	if (!(new = ft_mmap(sizeof(struct s_data*))))
+	if (!(new = get_ptr_data(map)))
 		return (NULL);
+	map->last_data = new;
 	new->is_free = FALSE;
 	new->next = NULL;
 	new->prev = NULL;
-	if (!(new->ptr = ft_mmap(size)))
+	if (!(new->ptr = get_ptr(size, map)))
 		return (NULL);
 	new->allocated_size = size;
 	add_to_datas(new, map);
@@ -65,7 +88,8 @@ size_t	get_allocated_data(t_map *map)
 	datas = map->data;
 	while (datas)
 	{
-		allocated += datas->allocated_size;
+		if (datas->is_free == FALSE)
+			allocated += datas->allocated_size;
 		datas = datas->next;
 	}
 	return (allocated);

@@ -12,16 +12,31 @@
 
 #include "ft_malloc.h"
 
-t_map	*alloc_map(int zone)
+t_map	*alloc_map(int zone, size_t size)
 {
 	t_map	*map;
 
-	if (!(map = ft_mmap(sizeof(struct s_map*))))
+	if (!(map = ft_mmap(sizeof(struct s_map))))
 		return (NULL);
 	map->prev = NULL;
 	map->next = NULL;
 	map->data = NULL;
 	map->zone_type = zone;
+	if (map->zone_type == TINY)
+	{
+		map->content = ft_mmap(TINY_ALLOC);
+		map->content_data = ft_mmap(TINY_ALLOC + DATA);
+	}
+	else if (map->zone_type == SMALL)
+	{
+		map->content = ft_mmap(SMALL_ALLOC);
+		map->content_data = ft_mmap(SMALL_ALLOC + DATA);
+	}
+	else
+	{
+		map->content = ft_mmap(size);
+		map->content_data = ft_mmap(size + DATA);
+	}
 	return (map);
 }
 
@@ -49,11 +64,11 @@ t_map	*get_new_map(size_t size)
 
 	new = NULL;
 	if (size <= (TINY_ALLOC / 100))
-		new = alloc_map(TINY);
+		new = alloc_map(TINY, size);
 	else if (size <= (SMALL_ALLOC / 100))
-		new = alloc_map(SMALL);
+		new = alloc_map(SMALL, size);
 	else
-		new = alloc_map(LARGE);
+		new = alloc_map(LARGE, size);
 	if (new != NULL)
 	{
 		add_map(get_maps(), new);
@@ -93,7 +108,8 @@ int		map_available(t_map *map, size_t size)
 	datas = map->data;
 	while (datas)
 	{
-		allocated += datas->allocated_size;
+		if (datas->is_free == FALSE)
+			allocated += datas->allocated_size;
 		datas = datas->next;
 	}
 	if (map->zone_type == TINY

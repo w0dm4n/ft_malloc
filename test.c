@@ -165,10 +165,11 @@ int main(int argc, char **argv)
 	}
 
 	i = 0;
-
-	while (i <= 10)
+	char *sltcv = NULL;
+	while (i <= 100)
 	{
-		malloc(10024);
+		sltcv = malloc(1002);
+		free(sltcv);
 		i++;
 	}
 
