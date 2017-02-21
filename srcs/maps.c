@@ -40,11 +40,6 @@ t_map	*alloc_map(int zone, size_t size)
 	return (map);
 }
 
-t_map	*get_maps(void)
-{
-	return (g_maps);
-}
-
 void	add_map(t_map *maps, t_map *new_map)
 {
 	if (maps)
@@ -63,15 +58,15 @@ t_map	*get_new_map(size_t size)
 	t_map	*new;
 
 	new = NULL;
-	if (size <= (TINY_ALLOC / 100))
+	if (size <= (unsigned long)(TINY_ALLOC / 100))
 		new = alloc_map(TINY, size);
-	else if (size <= (SMALL_ALLOC / 100))
+	else if (size <= (unsigned long)(SMALL_ALLOC / 100))
 		new = alloc_map(SMALL, size);
 	else
 		new = alloc_map(LARGE, size);
 	if (new != NULL)
 	{
-		add_map(get_maps(), new);
+		add_map(g_maps, new);
 		return (new);
 	}
 	else
@@ -82,13 +77,13 @@ t_map	*get_map_by_size(size_t size, t_map *maps)
 {
 	while (maps)
 	{
-		if (size <= (TINY_ALLOC / 100) &&
+		if (size <= (TINY_ALLOC / (unsigned long)100) &&
 			maps->zone_type == TINY)
 		{
 			if (map_available(maps, size))
 				return (maps);
 		}
-		else if (size <= (SMALL_ALLOC / 100) &&
+		else if (size <= (unsigned long)(SMALL_ALLOC / 100) &&
 			maps->zone_type == SMALL)
 		{
 			if (map_available(maps, size))
@@ -113,10 +108,10 @@ int		map_available(t_map *map, size_t size)
 		datas = datas->next;
 	}
 	if (map->zone_type == TINY
-		&& (allocated + size) > TINY_ALLOC)
+		&& (allocated + size) > (unsigned long)TINY_ALLOC)
 		return (FALSE);
 	else if (map->zone_type == SMALL
-		&& (allocated + size) > SMALL_ALLOC)
+		&& (allocated + size) > (unsigned long)SMALL_ALLOC)
 		return (FALSE);
 	return (TRUE);
 }

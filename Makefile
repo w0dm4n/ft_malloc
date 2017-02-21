@@ -6,7 +6,7 @@
 #    By: frmarinh <frmarinh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/25 14:12:13 by frmarinh          #+#    #+#              #
-#    Updated: 2016/07/12 19:15:35 by frmarinh         ###   ########.fr        #
+#    Updated: 2017/02/21 20:14:46 by frmarinh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,7 @@ MAX_COLS	=	$$(echo "$$(tput cols)-20-$(LENGTHNAME)"|bc)
 
 CC			=	gcc
 
-#FLAGS		=	-Wall -Wextra -Werror -O3 -ggdb
-
-FLAGS		=
+FLAGS		=	-Wall -Wextra -Werror -O3 -ggdb
 
 SRCDIR		=	srcs/
 
@@ -48,7 +46,13 @@ SRCBASE		=	\
 				data.c				\
 				show_alloc_mem.c    \
 				free.c              \
-				realloc.c
+				realloc.c           \
+				print.c             \
+				libft.c             \
+				get_addr.c          \
+				libft_extends.c     \
+				hexa.c              \
+				hexa_extends.c
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRCBASE))
 

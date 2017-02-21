@@ -45,3 +45,31 @@ void	*realloc(void *ptr, size_t size)
 	data->ptr = tmp;
 	return (tmp);
 }
+
+t_data	*get_new_data(size_t size, t_map *map)
+{
+	t_data	*new;
+
+	if (!(new = get_ptr_data(map)))
+		return (NULL);
+	map->last_data = new;
+	new->is_free = FALSE;
+	new->next = NULL;
+	new->prev = NULL;
+	if (!(new->ptr = get_ptr(size, map)))
+		return (NULL);
+	new->allocated_size = size;
+	add_to_datas(new, map);
+	return (new);
+}
+
+int		all_freed(t_data *datas)
+{
+	while (datas)
+	{
+		if (datas->is_free == FALSE)
+			return (FALSE);
+		datas = datas->next;
+	}
+	return (TRUE);
+}

@@ -12,25 +12,6 @@
 
 #include "ft_malloc.h"
 
-void	remove_data(t_data **ptr, t_data *data)
-{
-	t_data	tmp;
-
-	while ((*ptr) != NULL)
-	{
-		if ((*ptr) == data)
-		{
-			tmp = **ptr;
-			*ptr = (*ptr)->next;
-			munmap(data, sizeof(data));
-		}
-		else
-		{
-			ptr = &((*ptr)->next);
-		}
-	}
-}
-
 void	free_all(t_map *map)
 {
 	if (map->zone_type == TINY)
@@ -87,7 +68,7 @@ void	get_data(void *ptr)
 	t_data	*datas;
 
 	datas = NULL;
-	maps = get_maps();
+	maps = g_maps;
 	while (maps)
 	{
 		datas = maps->data;
@@ -96,7 +77,7 @@ void	get_data(void *ptr)
 			if (datas->ptr == ptr)
 			{
 				if (delete_from_map(datas, maps) == TRUE)
-					maps = get_maps();
+					maps = g_maps;
 				break ;
 			}
 			datas = datas->next;

@@ -14,15 +14,17 @@
 
 void	*get_ptr(size_t size, t_map *map)
 {
-	int		allocated = 0;
+	int		allocated;
 	t_data	*datas;
 
 	datas = map->data;
+	allocated = 0;
 	while (datas)
 	{
 		allocated += datas->allocated_size;
 		datas = datas->next;
 	}
+	size = 0;
 	allocated += 1;
 	return (map->content + allocated);
 }
@@ -32,23 +34,6 @@ void	*get_ptr_data(t_map *map)
 	if (map->last_data)
 		return (map->last_data + sizeof(struct s_data));
 	return (map->content_data);
-}
-
-t_data	*get_new_data(size_t size, t_map *map)
-{
-	t_data	*new;
-
-	if (!(new = get_ptr_data(map)))
-		return (NULL);
-	map->last_data = new;
-	new->is_free = FALSE;
-	new->next = NULL;
-	new->prev = NULL;
-	if (!(new->ptr = get_ptr(size, map)))
-		return (NULL);
-	new->allocated_size = size;
-	add_to_datas(new, map);
-	return (new);
 }
 
 void	add_to_datas(t_data *data, t_map *map)
@@ -93,28 +78,4 @@ size_t	get_allocated_data(t_map *map)
 		datas = datas->next;
 	}
 	return (allocated);
-}
-
-t_data	*find_data(void *ptr)
-{
-	t_map	*maps;
-	t_data	*datas;
-
-	maps = get_maps();
-	datas = NULL;
-	while (maps)
-	{
-		if (maps->data)
-		{
-			datas = maps->data;
-			while (datas)
-			{
-				if (datas->ptr == ptr)
-					return (datas);
-				datas = datas->next;
-			}
-		}
-		maps = maps->next;
-	}
-	return (NULL);
 }

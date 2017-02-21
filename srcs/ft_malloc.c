@@ -32,14 +32,14 @@ void	*get_alloc(size_t size)
 	t_map	*current;
 
 	current = NULL;
-	maps = get_maps();
+	maps = g_maps;
 	if (!maps)
 		current = get_new_map(size);
 	if (g_maps)
 	{
 		if (current == NULL)
 		{
-			if ((current = get_map_by_size(size, get_maps())) == NULL)
+			if ((current = get_map_by_size(size, g_maps)) == NULL)
 				current = get_new_map(size);
 		}
 		if (current)
@@ -59,4 +59,28 @@ void	*alloc_in_map(size_t size, t_map *map)
 	if (!(data = get_new_data(size, map)))
 		return (NULL);
 	return (data->ptr);
+}
+
+t_data	*find_data(void *ptr)
+{
+	t_map	*maps;
+	t_data	*datas;
+
+	maps = g_maps;
+	datas = NULL;
+	while (maps)
+	{
+		if (maps->data)
+		{
+			datas = maps->data;
+			while (datas)
+			{
+				if (datas->ptr == ptr)
+					return (datas);
+				datas = datas->next;
+			}
+		}
+		maps = maps->next;
+	}
+	return (NULL);
 }

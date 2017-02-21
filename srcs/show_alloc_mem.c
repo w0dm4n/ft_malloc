@@ -6,22 +6,11 @@
 /*   By: frmarinh <frmarinh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/18 00:55:29 by frmarinh          #+#    #+#             */
-/*   Updated: 2017/02/18 00:55:30 by frmarinh         ###   ########.fr       */
+/*   Updated: 2017/02/21 17:43:13 by frmarinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malloc.h"
-
-int		all_freed(t_data *datas)
-{
-	while (datas)
-	{
-		if (datas->is_free == FALSE)
-			return (FALSE);
-		datas = datas->next;
-	}
-	return (TRUE);
-}
 
 void	print_tiny_allocation(t_map *maps)
 {
@@ -38,12 +27,12 @@ void	print_tiny_allocation(t_map *maps)
 			{
 				if (print == 0)
 				{
-					printf("TINY : %p\n", maps);
+					print_tiny_start(maps);
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, \
-					get_last_data(maps), get_allocated_data(maps));
+				print_oct(data->ptr, get_last_data(maps), \
+					get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -65,12 +54,12 @@ void	print_small_allocation(t_map *maps)
 			{
 				if (print == 0)
 				{
-					printf("SMALL : %p\n", maps);
+					print_small_start(maps);
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, \
-					get_last_data(maps), get_allocated_data(maps));
+				print_oct(data->ptr, get_last_data(maps), \
+					get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -92,12 +81,12 @@ void	print_large_allocation(t_map *maps)
 			{
 				if (print == 0)
 				{
-					printf("LARGE : %p\n", maps);
+					print_large_start(maps);
 					print = 1;
 				}
 				data = maps->data;
-				printf("%p - %p : %zu octets\n", data->ptr, \
-					get_last_data(maps), get_allocated_data(maps));
+				print_oct(data->ptr, get_last_data(maps), \
+					get_allocated_data(maps));
 			}
 		}
 		maps = maps->next;
@@ -131,12 +120,12 @@ void	show_alloc_mem(void)
 {
 	t_map	*maps;
 
-	maps = get_maps();
+	maps = g_maps;
 	if (maps != NULL)
 	{
 		print_tiny_allocation(maps);
 		print_small_allocation(maps);
 		print_large_allocation(maps);
 	}
-	printf("Total : %zu octets\n", get_alloc_total(maps));
+	print_total_oct(get_alloc_total(maps));
 }
