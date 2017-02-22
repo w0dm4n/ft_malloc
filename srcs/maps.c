@@ -24,12 +24,12 @@ t_map	*alloc_map(int zone, size_t size)
 	map->zone_type = zone;
 	if (map->zone_type == TINY)
 	{
-		map->content = ft_mmap(TINY_ALLOC);
+		map->content = ft_mmap(TINY_ALLOC + DATA * 10);
 		map->content_data = ft_mmap(TINY_ALLOC + DATA);
 	}
 	else if (map->zone_type == SMALL)
 	{
-		map->content = ft_mmap(SMALL_ALLOC);
+		map->content = ft_mmap(SMALL_ALLOC + DATA * 10);
 		map->content_data = ft_mmap(SMALL_ALLOC + DATA);
 	}
 	else

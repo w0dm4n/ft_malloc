@@ -180,5 +180,5 @@ int main(int argc, char **argv)
 		SMALL_ALLOC);
 	*/
 	show_alloc_mem();
-	show_hexa_tiny();
+	//show_hexa_tiny();
 }

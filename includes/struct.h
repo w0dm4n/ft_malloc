@@ -24,6 +24,7 @@ typedef struct		s_data
 {
 	void			*ptr;
 	size_t			allocated_size;
+	size_t			real_size;
 	int				is_free;
 	struct s_data	*next;
 	struct s_data	*prev;

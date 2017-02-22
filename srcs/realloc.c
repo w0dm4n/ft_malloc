@@ -34,6 +34,8 @@ void	*realloc(void *ptr, size_t size)
 	t_data	*data;
 	void	*tmp;
 
+	if (ptr == NULL)
+		return (malloc(size));
 	if (!(data = find_data(ptr)))
 		return (NULL);
 	if (size <= data->allocated_size)
@@ -41,7 +43,10 @@ void	*realloc(void *ptr, size_t size)
 	tmp = ft_mmap(size);
 	ft_bcopy((char*)ptr, (char*)tmp, data->allocated_size);
 	munmap(ptr, data->allocated_size);
-	data->allocated_size = data->allocated_size + size;
+	if (size > (unsigned long)(TINY_ALLOC / 100))
+		data->allocated_size = size;
+	else
+		data->allocated_size = (TINY_ALLOC / 100);
 	data->ptr = tmp;
 	return (tmp);
 }
@@ -54,11 +59,19 @@ t_data	*get_new_data(size_t size, t_map *map)
 		return (NULL);
 	map->last_data = new;
 	new->is_free = FALSE;
+	new->real_size = size;
 	new->next = NULL;
 	new->prev = NULL;
 	if (!(new->ptr = get_ptr(size, map)))
 		return (NULL);
-	new->allocated_size = size;
+	if (map->zone_type == TINY)
+		new->allocated_size = (TINY_ALLOC / 100);
+	else if (map->zone_type == SMALL)
+		new->allocated_size = (TINY_ALLOC / 100);
+	else
+	{
+		new->allocated_size = size;
+	}
 	add_to_datas(new, map);
 	return (new);
 }

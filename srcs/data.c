@@ -74,7 +74,7 @@ size_t	get_allocated_data(t_map *map)
 	while (datas)
 	{
 		if (datas->is_free == FALSE)
-			allocated += datas->allocated_size;
+			allocated += datas->real_size;
 		datas = datas->next;
 	}
 	return (allocated);

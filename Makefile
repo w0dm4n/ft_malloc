@@ -32,7 +32,7 @@ MAX_COLS	=	$$(echo "$$(tput cols)-20-$(LENGTHNAME)"|bc)
 
 CC			=	gcc
 
-FLAGS		=	-Wall -Wextra -Werror -O3 -ggdb
+FLAGS		=	-fPIC -W -Wall -Wextra -Werror -g3
 
 SRCDIR		=	srcs/
 
@@ -67,9 +67,8 @@ all:
 		$(MAKE) -j $(NAME);													\
 	fi
 $(NAME):	$(OBJDIR) $(OBJS)
-	ar rc $(NAME) $(OBJS)
-	ranlib $(NAME)
-	ln -s $(NAME) $(NAMELINK)
+	$(CC) $(FLAGS) -shared -o $(NAME) $(OBJS) -I $(INCDIR)
+	ln -sf $(NAME) $(NAMELINK)
 	echo "MAKE   [$(NAMEBASE)]"
 
 $(OBJDIR):

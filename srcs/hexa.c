@@ -38,7 +38,7 @@ int		print_hexa_data(t_data *s)
 	ptr = s->ptr;
 	i = 0;
 	count = 0;
-	while (i < s->allocated_size)
+	while (i < s->real_size)
 	{
 		if (s->is_free == FALSE)
 		{
